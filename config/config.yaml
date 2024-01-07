@@ -1,0 +1,6 @@
+env: "local"
+storage_path: "./storage/accounts.db"
+grpc:
+  port: 44045
+  timeout: 5s
+secret: "test-secret"
