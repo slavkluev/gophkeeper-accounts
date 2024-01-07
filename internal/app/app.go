@@ -26,7 +26,7 @@ func New(
 		panic(err)
 	}
 
-	accountsService := accounts.New(log, storage, storage, tokenTTL)
+	accountsService := accounts.New(log, storage, storage, storage, tokenTTL)
 
 	grpcApp, err := grpcapp.New(log, accountsService, grpcPort, secret)
 	if err != nil {

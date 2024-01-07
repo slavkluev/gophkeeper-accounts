@@ -14,7 +14,7 @@ type Accounts struct {
 	log         *zap.Logger
 	accSaver    AccountSaver
 	accUpdater  AccountUpdater
-	usrProvider AccountProvider
+	accProvider AccountProvider
 	tokenTTL    time.Duration
 }
 
@@ -33,12 +33,14 @@ type AccountProvider interface {
 func New(
 	log *zap.Logger,
 	accSaver AccountSaver,
+	accUpdater AccountUpdater,
 	accProvider AccountProvider,
 	tokenTTL time.Duration,
 ) *Accounts {
 	return &Accounts{
 		accSaver:    accSaver,
-		usrProvider: accProvider,
+		accUpdater:  accUpdater,
+		accProvider: accProvider,
 		log:         log,
 		tokenTTL:    tokenTTL,
 	}
@@ -122,7 +124,7 @@ func (a *Accounts) GetAll(ctx context.Context) ([]models.Account, error) {
 		return nil, fmt.Errorf("%s: failed to find user uid", op)
 	}
 
-	accounts, err := a.usrProvider.GetAll(ctx, userUID)
+	accounts, err := a.accProvider.GetAll(ctx, userUID)
 	if err != nil {
 		a.log.Error("failed to get all accounts", zap.Error(err))
 

@@ -32,7 +32,7 @@ func (s *serverAPI) GetAll(
 ) (*accountsv1.GetAllResponse, error) {
 	accounts, err := s.accounts.GetAll(ctx)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "failed to login")
+		return nil, status.Error(codes.Internal, "failed to get all accounts")
 	}
 
 	var accs []*accountsv1.Account
@@ -62,7 +62,7 @@ func (s *serverAPI) Save(
 
 	accountID, err := s.accounts.SaveAccount(ctx, in.GetLogin(), in.GetPassword(), in.GetInfo())
 	if err != nil {
-		return nil, status.Error(codes.Internal, "failed to register user")
+		return nil, status.Error(codes.Internal, "failed to save account")
 	}
 
 	return &accountsv1.SaveResponse{Id: accountID}, nil
@@ -86,7 +86,7 @@ func (s *serverAPI) Update(
 
 	err := s.accounts.UpdateAccount(ctx, in.GetId(), in.GetLogin(), in.GetPassword(), in.GetInfo())
 	if err != nil {
-		return nil, status.Error(codes.Internal, "failed to register user")
+		return nil, status.Error(codes.Internal, "failed to update account")
 	}
 
 	return &accountsv1.UpdateResponse{}, nil
